@@ -1,6 +1,9 @@
 import styled from "styled-components"
+import { Link } from "react-router-dom";
 
-export default function SuccessPage() {
+export default function SuccessPage(props) {
+
+    const {objeto2, objeto3, objeto4, name, cpf} = props;
 
     return (
         <PageContainer>
@@ -8,8 +11,8 @@ export default function SuccessPage() {
 
             <TextContainer>
                 <strong><p>Filme e sessão</p></strong>
-                <p>Tudo em todo lugar ao mesmo tempo</p>
-                <p>03/03/2023 - 14:00</p>
+                <p>{objeto2.title}</p>
+                <p>{objeto3.date} - {objeto4}</p>
             </TextContainer>
 
             <TextContainer>
@@ -21,11 +24,14 @@ export default function SuccessPage() {
 
             <TextContainer>
                 <strong><p>Comprador</p></strong>
-                <p>Nome: Letícia Chijo</p>
-                <p>CPF: 123.456.789-10</p>
+                <p>Nome: {name}</p>
+                <p>CPF: {cpf}</p>
             </TextContainer>
 
-            <button>Voltar para Home</button>
+            <Link to="/">
+                <button>Voltar para Home</button>
+            </Link>
+
         </PageContainer>
     )
 }

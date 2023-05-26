@@ -3,16 +3,36 @@ import HomePage from "./pages/HomePage/HomePage"
 import SeatsPage from "./pages/SeatsPage/SeatsPage"
 import SessionsPage from "./pages/SessionsPage/SessionsPage"
 import SuccessPage from "./pages/SuccessPage/SuccessPage"
+import axios from "axios"
+import { BrowserRouter, Routes, Route } from "react-router-dom"
+import { useState } from "react";
 
 export default function App() {
+
+    axios.defaults.headers.common['Authorization'] = 'dDfHIe4yQDK16EKpL7Q9TzAH';
+
+    const [objeto2, setObjeto2] = useState({});
+    const [objeto3, setObjeto3] = useState({});
+    const [objeto4, setObjeto4] = useState(undefined);
+    const [name, setName] = useState('');
+    const [cpf, setCpf] = useState('');
+
     return (
         <>
-           <NavContainer>CINEFLEX</NavContainer>
+            <BrowserRouter>
 
-            <HomePage />
-            {/* <SeatsPage /> */}
-            {/* <SessionsPage /> */}
-            {/* <SuccessPage /> */}
+                <NavContainer>CINEFLEX</NavContainer>
+
+                <Routes>
+
+                <Route path="/" element={<HomePage />}></Route>
+                <Route path="/sessoes/:idFilme" element={<SessionsPage />}></Route>
+                <Route path="/assentos/:idSessao" element={<SeatsPage objeto2={objeto2} setObjeto2={setObjeto2} objeto3={objeto3} setObjeto3={setObjeto3} objeto4={objeto4} setObjeto4={setObjeto4} name={name} setName={setName} cpf={cpf} setCpf={setCpf} />}></Route>
+                <Route path="/sucesso" element={<SuccessPage objeto2={objeto2} setObjeto2={setObjeto2} objeto3={objeto3} setObjeto3={setObjeto3} objeto4={objeto4} setObjeto4={setObjeto4} name={name} setName={setName} cpf={cpf} setCpf={setCpf}/>}></Route>
+                  
+                </Routes>
+
+            </BrowserRouter>
         </>
     )
 }
