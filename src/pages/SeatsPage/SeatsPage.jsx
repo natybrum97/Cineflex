@@ -69,7 +69,7 @@ export default function SeatsPage(props) {
 
                 {cadeiras.map((cadeira, index) => (
 
-                    <SeatItem
+                    <SeatItem data-test="seat"
 
                         key={cadeira.id}
 
@@ -100,17 +100,17 @@ export default function SeatsPage(props) {
 
                 <FormContainer>
                     Nome do Comprador:
-                    <input type="text" id="nome" value={name} onChange={(e) => setName(e.target.value)} placeholder="Digite seu nome..." />
+                    <input data-test="client-name" type="text" id="nome" value={name} onChange={(e) => setName(e.target.value)} placeholder="Digite seu nome..." />
 
                     CPF do Comprador:
-                    <input type="text" id="cpf" value={cpf} onChange={(e) => setCpf(e.target.value)} placeholder="Digite seu CPF..." />
+                    <input data-test="client-cpf" type="text" id="cpf" value={cpf} onChange={(e) => setCpf(e.target.value)} placeholder="Digite seu CPF..." />
 
                 </FormContainer>
 
                 <FormContainer2>
 
 
-                    <button type="submit">Reservar Assento(s)</button>
+                    <button data-test="book-seat-btn" type="submit">Reservar Assento(s)</button>
 
 
                 </FormContainer2>
