@@ -42,18 +42,19 @@ export default function SeatsPage(props) {
         e.preventDefault();
 
         const obj = {
-            ids: {cadeirasSelect},
-            name: { name },
-            cpf: { cpf }
+            ids: cadeirasSelect,
+            name: name,
+            cpf: cpf
         }
 
         const url = "https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many";
 
         const promise = axios.post(url, obj);
 
-        promise.then((resposta) => {
+        promise.then(resposta => {
 
         if(cadeirasSelect.length > 0) {
+            console.log(resposta.data)
             navigate("/sucesso")
             console.log("Deu certo!")
         } else{
@@ -188,7 +189,7 @@ export default function SeatsPage(props) {
                 </form>
 
 
-                <FooterContainer>
+                <FooterContainer data-test="footer" >
                     <div>
                         <img src={objeto2.posterURL} alt="poster" />
                     </div>
