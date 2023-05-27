@@ -3,7 +3,15 @@ import { Link } from "react-router-dom";
 
 export default function SuccessPage(props) {
 
-    const {objeto2, objeto3, objeto4, name, cpf, cadeirasSelectNumero} = props;
+    const {objeto2, objeto3, objeto4, name, cpf, setName, setCpf, cadeirasSelectNumero, setCadeirasSelectNumero,cadeirasSelect, setCadeirasSelect} = props;
+
+    function zerarArrays () {
+        const array = [];
+        setCadeirasSelect(array);
+        setCadeirasSelectNumero(array);
+        setCpf('');
+        setName('');
+    }
 
     return (
         <PageContainer>
@@ -28,7 +36,7 @@ export default function SuccessPage(props) {
             </TextContainer>
 
             <Link data-test="go-home-btn" to="/">
-                <button>Voltar para Home</button>
+                <button onClick={zerarArrays}>Voltar para Home</button>
             </Link>
 
         </PageContainer>
