@@ -6,6 +6,7 @@ import SuccessPage from "./pages/SuccessPage/SuccessPage"
 import axios from "axios"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import { useState } from "react";
+import GoBackButton from "./components/GoBackButton";
 
 export default function App() {
 
@@ -25,6 +26,7 @@ export default function App() {
             <BrowserRouter>
 
                 <NavContainer>CINEFLEX</NavContainer>
+                <GoBackButton />
 
                 <Routes>
 
