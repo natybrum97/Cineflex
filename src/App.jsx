@@ -10,7 +10,7 @@ import GoBackButton from "./components/GoBackButton";
 
 export default function App() {
 
-    axios.defaults.headers.common['Authorization'] = 'dDfHIe4yQDK16EKpL7Q9TzAH';
+    axios.defaults.headers.common['Authorization'] = 'qIOKXlfUedvDyhZNBYoucWmR';
 
     const [objeto2, setObjeto2] = useState({});
     const [objeto3, setObjeto3] = useState({});
