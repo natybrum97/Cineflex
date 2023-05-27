@@ -8,10 +8,10 @@ export default function SeatsPage(props) {
 
     const navigate = useNavigate();
 
-    const { objeto2, setObjeto2, objeto3, setObjeto3, objeto4, setObjeto4, name, setName, cpf, setCpf } = props;
+    const { objeto2, setObjeto2, objeto3, setObjeto3, objeto4, setObjeto4, name, setName, cpf, setCpf, cadeirasSelectNumero, setCadeirasSelectNumero} = props;
 
     const [cadeiras, setCadeiras] = useState([]);
-
+    const [cadeirasSelect, setCadeirasSelect] = useState([]);
 
     const parametro2 = useParams();
 
@@ -22,7 +22,7 @@ export default function SeatsPage(props) {
         const promise = axios.get(url);
 
         promise.then((resposta) => {
-            console.log(resposta.data.seats)
+
             setCadeiras(resposta.data.seats);
             setObjeto2(resposta.data.movie);
             setObjeto3(resposta.data.day);
@@ -40,13 +40,11 @@ export default function SeatsPage(props) {
 
     function enviarInfos(e) {
         e.preventDefault();
-        console.log(name);
-        console.log(cpf);
 
         const obj = {
-            ids: [10015, 10016, 10017],
-            name: {name},
-            cpf: {cpf}
+            ids: {cadeirasSelect},
+            name: { name },
+            cpf: { cpf }
         }
 
         const url = "https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many";
@@ -54,85 +52,157 @@ export default function SeatsPage(props) {
         const promise = axios.post(url, obj);
 
         promise.then((resposta) => {
+
+        if(cadeirasSelect.length > 0) {
             navigate("/sucesso")
+            console.log("Deu certo!")
+        } else{
+            alert("Por favor escolha um acento!")
+        }
+            
         });
 
         promise.catch(erro => console.log(erro.response.data));
 
     }
 
-    return (
-        <PageContainer>
-            Selecione o(s) assento(s)
+    function selecionarCadeira(cadeira) {
 
-            <SeatsContainer>
+        console.log(cadeira);
 
-                {cadeiras.map((cadeira, index) => (
+        if (cadeira.isAvailable === false) {
+            alert("Esse assento não está disponível");
+        } else {
 
-                    <SeatItem data-test="seat"
+            let podeadd = true;
+            let numero;
 
-                        key={cadeira.id}
+            cadeirasSelect.forEach(acento => {
+                if (acento === cadeira.id) {
+                    podeadd = false;
+                    numero = cadeira.name;
 
-                        isAvailable={cadeira.isAvailable}
+                }
+            });
 
-                    >{cadeira.name}</SeatItem>
-                )
-                )}
+            if (podeadd === true) {
 
-            </SeatsContainer>
+                setCadeirasSelect([...cadeirasSelect, cadeira.id]);
+                console.log([...cadeirasSelect, cadeira.id])
+                setCadeirasSelectNumero([...cadeirasSelectNumero, cadeira.name])
+                console.log([...cadeirasSelectNumero, cadeira.name])
 
-            <CaptionContainer>
-                <CaptionItem>
-                    <CaptionCircle1 />
-                    Selecionado
-                </CaptionItem>
-                <CaptionItem>
-                    <CaptionCircle2 />
-                    Disponível
-                </CaptionItem>
-                <CaptionItem>
-                    <CaptionCircle3 />
-                    Indisponível
-                </CaptionItem>
-            </CaptionContainer>
+            } else {
+                let novosacentos = [];
+                let acentosatuais = [...cadeirasSelect];
 
-            <form onSubmit={enviarInfos}>
+                let novosnumeros = [];
+                let numerosatuais = [...cadeirasSelectNumero];
 
-                <FormContainer>
-                    Nome do Comprador:
-                    <input data-test="client-name" type="text" id="nome" value={name} onChange={(e) => setName(e.target.value)} placeholder="Digite seu nome..." />
+                acentosatuais.forEach(acento => {
+                    if(acento != cadeira.id){
 
-                    CPF do Comprador:
-                    <input data-test="client-cpf" type="text" id="cpf" value={cpf} onChange={(e) => setCpf(e.target.value)} placeholder="Digite seu CPF..." />
+                        novosacentos.push(acento);
+                    }
+                })
 
-                </FormContainer>
+                numerosatuais.forEach(acento => {
+                    if(acento != cadeira.name){
 
-                <FormContainer2>
+                        novosnumeros.push(acento);
+                    }
+                })
+
+                setCadeirasSelect(novosacentos);
+                console.log(novosacentos);
+
+                setCadeirasSelectNumero(novosnumeros)
+                console.log(novosnumeros);
+
+            }
+
+        }
+
+    }
+
+        return (
+            <PageContainer>
+                Selecione o(s) assento(s)
+
+                <SeatsContainer>
+
+                    {cadeiras.map((cadeira, index) => (
+
+                        <SeatItem data-test="seat"
+
+                            key={cadeira.id}
+
+                            isAvailable={cadeira.isAvailable}
+
+                            id={cadeira.id}
+
+                            array = {cadeirasSelect}
+
+                            onClick={() => selecionarCadeira(cadeira)}
+
+                        >{cadeira.name}</SeatItem>
+                    )
+                    )}
+
+                </SeatsContainer>
+
+                <CaptionContainer>
+                    <CaptionItem>
+                        <CaptionCircle1 />
+                        Selecionado
+                    </CaptionItem>
+                    <CaptionItem>
+                        <CaptionCircle2 />
+                        Disponível
+                    </CaptionItem>
+                    <CaptionItem>
+                        <CaptionCircle3 />
+                        Indisponível
+                    </CaptionItem>
+                </CaptionContainer>
+
+                <form onSubmit={enviarInfos}>
+
+                    <FormContainer>
+                        Nome do Comprador:
+                        <input data-test="client-name" type="text" id="nome" value={name} onChange={(e) => setName(e.target.value)} placeholder="Digite seu nome..." required />
+
+                        CPF do Comprador:
+                        <input data-test="client-cpf" type="text" id="cpf" value={cpf} onChange={(e) => setCpf(e.target.value)} placeholder="Digite seu CPF..." required/>
+
+                    </FormContainer>
+
+                    <FormContainer2>
 
 
-                    <button data-test="book-seat-btn" type="submit">Reservar Assento(s)</button>
+                        <button data-test="book-seat-btn" type="submit">Reservar Assento(s)</button>
 
 
-                </FormContainer2>
+                    </FormContainer2>
 
-            </form>
+                </form>
 
 
-            <FooterContainer>
-                <div>
-                    <img src={objeto2.posterURL} alt="poster" />
-                </div>
-                <div>
-                    <p>{objeto2.title}</p>
-                    <p>{objeto3.weekday} - {objeto4}</p>
-                </div>
-            </FooterContainer>
+                <FooterContainer>
+                    <div>
+                        <img src={objeto2.posterURL} alt="poster" />
+                    </div>
+                    <div>
+                        <p>{objeto2.title}</p>
+                        <p>{objeto3.weekday} - {objeto4}</p>
+                    </div>
+                </FooterContainer>
 
-        </PageContainer>
-    )
-}
+            </PageContainer>
+        )
+    }
 
-const PageContainer = styled.div`
+    const PageContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -144,7 +214,7 @@ const PageContainer = styled.div`
     padding-bottom: 120px;
     padding-top: 70px;
 `
-const SeatsContainer = styled.div`
+    const SeatsContainer = styled.div`
     width: 330px;
     display: flex;
     flex-direction: row;
@@ -153,7 +223,7 @@ const SeatsContainer = styled.div`
     justify-content: center;
     margin-top: 20px;
 `
-const FormContainer = styled.div`
+    const FormContainer = styled.div`
     width: calc(100vw - 40px); 
     display: flex;
     flex-direction: column;
@@ -171,7 +241,7 @@ const FormContainer = styled.div`
         width: calc(100vw - 60px);
     }
 `
-const FormContainer2 = styled.div`
+    const FormContainer2 = styled.div`
     width: 375px; 
     height: 42px;
     display: flex;
@@ -200,14 +270,14 @@ const FormContainer2 = styled.div`
     border: none;
     }
 `
-const CaptionContainer = styled.div`
+    const CaptionContainer = styled.div`
     display: flex;
     flex-direction: row;
     width: 300px;
     justify-content: space-between;
     margin: 20px;
 `
-const CaptionCircle1 = styled.div`
+    const CaptionCircle1 = styled.div`
     border: 1px solid #0E7D71;         // Essa cor deve mudar
     background-color: #1AAE9E;    // Essa cor deve mudar
     height: 25px;
@@ -218,7 +288,7 @@ const CaptionCircle1 = styled.div`
     justify-content: center;
     margin: 5px 3px;
 `
-const CaptionCircle2 = styled.div`
+    const CaptionCircle2 = styled.div`
     border: 1px solid #7B8B99;         // Essa cor deve mudar
     background-color: #C3CFD9;    // Essa cor deve mudar
     height: 25px;
@@ -229,7 +299,7 @@ const CaptionCircle2 = styled.div`
     justify-content: center;
     margin: 5px 3px;
 `
-const CaptionCircle3 = styled.div`
+    const CaptionCircle3 = styled.div`
     border: 1px solid #F7C52B;         // Essa cor deve mudar
     background-color: #FBE192;    // Essa cor deve mudar
     height: 25px;
@@ -240,15 +310,16 @@ const CaptionCircle3 = styled.div`
     justify-content: center;
     margin: 5px 3px;
 `
-const CaptionItem = styled.div`
+    const CaptionItem = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
     font-size: 12px;
 `
-const SeatItem = styled.div`
+    const SeatItem = styled.div`
     /* Estilos padrão para todas as cadeiras */
-    border: 1px solid ${({ isAvailable }) => (isAvailable ? '#7B8B99' : '#F7C52B')};
+    border: 1px solid ${({ isAvailable, array, id }) =>
+            isAvailable && array.includes(id) ? '#0E7D71' : isAvailable && !array.includes(id) ? '#7B8B99' : '#F7C52B'};
     height: 25px;
     width: 25px;
     border-radius: 25px;
@@ -259,11 +330,14 @@ const SeatItem = styled.div`
     justify-content: center;
     margin: 5px 3px;
 
+    cursor: ${({ isAvailable }) => (isAvailable ? 'pointer' : 'not-allowed')};
+
     /* Estilos condicionais com base em isAvailable */
-    background-color: ${({ isAvailable }) => (isAvailable ? '#C3CFD9' : '#FBE192')};
+    background-color: ${({ isAvailable, array, id }) =>
+             isAvailable && array.includes(id) ? '#1AAE9E' : isAvailable && !array.includes(id) ? '#C3CFD9' : '#FBE192'};
 `;
 
-const FooterContainer = styled.div`
+    const FooterContainer = styled.div`
     width: 100%;
     height: 120px;
     background-color: #C3CFD9;

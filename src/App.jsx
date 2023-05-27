@@ -16,6 +16,7 @@ export default function App() {
     const [objeto4, setObjeto4] = useState(undefined);
     const [name, setName] = useState('');
     const [cpf, setCpf] = useState('');
+    const [cadeirasSelectNumero, setCadeirasSelectNumero] = useState([]);
 
     return (
         <>
@@ -27,8 +28,8 @@ export default function App() {
 
                 <Route path="/" element={<HomePage />}></Route>
                 <Route path="/sessoes/:idFilme" element={<SessionsPage />}></Route>
-                <Route path="/assentos/:idSessao" element={<SeatsPage objeto2={objeto2} setObjeto2={setObjeto2} objeto3={objeto3} setObjeto3={setObjeto3} objeto4={objeto4} setObjeto4={setObjeto4} name={name} setName={setName} cpf={cpf} setCpf={setCpf} />}></Route>
-                <Route path="/sucesso" element={<SuccessPage objeto2={objeto2} setObjeto2={setObjeto2} objeto3={objeto3} setObjeto3={setObjeto3} objeto4={objeto4} setObjeto4={setObjeto4} name={name} setName={setName} cpf={cpf} setCpf={setCpf}/>}></Route>
+                <Route path="/assentos/:idSessao" element={<SeatsPage objeto2={objeto2} setObjeto2={setObjeto2} objeto3={objeto3} setObjeto3={setObjeto3} objeto4={objeto4} setObjeto4={setObjeto4} name={name} setName={setName} cpf={cpf} setCpf={setCpf} cadeirasSelectNumero={cadeirasSelectNumero} setCadeirasSelectNumero={setCadeirasSelectNumero} />}></Route>
+                <Route path="/sucesso" element={<SuccessPage objeto2={objeto2} setObjeto2={setObjeto2} objeto3={objeto3} setObjeto3={setObjeto3} objeto4={objeto4} setObjeto4={setObjeto4} name={name} setName={setName} cpf={cpf} setCpf={setCpf} cadeirasSelectNumero={cadeirasSelectNumero} setCadeirasSelectNumero={setCadeirasSelectNumero} />}></Route>
                   
                 </Routes>
 

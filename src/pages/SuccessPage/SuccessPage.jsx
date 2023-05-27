@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export default function SuccessPage(props) {
 
-    const {objeto2, objeto3, objeto4, name, cpf} = props;
+    const {objeto2, objeto3, objeto4, name, cpf, cadeirasSelectNumero} = props;
 
     return (
         <PageContainer>
@@ -17,9 +17,8 @@ export default function SuccessPage(props) {
 
             <TextContainer data-test="seats-info">
                 <strong><p>Ingressos</p></strong>
-                <p>Assento 01</p>
-                <p>Assento 02</p>
-                <p>Assento 03</p>
+                {cadeirasSelectNumero.map(cadeira => <p key={cadeira}>Assento {cadeira} </p>)}
+
             </TextContainer>
 
             <TextContainer data-test="client-info">

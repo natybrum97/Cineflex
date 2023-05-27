@@ -10,7 +10,6 @@ export default function SessionsPage() {
     const [objeto, setObjeto] = useState({});
 
     const parametro = useParams();
-    console.log(parametro);
 
     useEffect(() => {
 
@@ -20,7 +19,6 @@ export default function SessionsPage() {
 
         promise.then((resposta) => {
 
-            console.log(resposta.data);
             setObjeto(resposta.data)
             setSessoes(resposta.data.days);
 

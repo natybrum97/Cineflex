@@ -16,7 +16,6 @@ export default function HomePage() {
 
         promise.then((resposta) => {
 
-            console.log(resposta.data);
             setMovies(resposta.data);
 
         })
